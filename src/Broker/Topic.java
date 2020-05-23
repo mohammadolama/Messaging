@@ -14,9 +14,10 @@ public class Topic {
         this.name = name;
         topicFile = new File("topics" + File.separator + name + ".dat");
         if (topicFile.exists()) {
-            if (topicFile.delete()) {}
-        } else if (topicFile.getParentFile() != null && topicFile.getParentFile().mkdirs())
-            {}
+            if (topicFile.delete()) {
+            }
+        } else if (topicFile.getParentFile() != null && topicFile.getParentFile().mkdirs()) {
+        }
         topicWriter = new TopicWriter(this);
         topicReaders = new HashMap<>();
     }
@@ -25,19 +26,19 @@ public class Topic {
         return topicFile;
     }
 
-    public void addGroup(String groupName) {
-        topicReaders.put(groupName, new TopicReader(this, groupName));
+    public void addGroup(String groupName, int numberofconsumers) {
+        topicReaders.put(groupName, new TopicReader(this, groupName, numberofconsumers));
     }
-
 
 
     /**
      * This method is used to get the first value in the topic file which is not read in the given group yet, and serve it for the appropriate consumer.
+     *
      * @return the value of the first remained item.
      */
-    public  int getFirstValueOf(String groupName, String consumerName) {
-        if(!topicReaders.containsKey(groupName)) {
-            addGroup(groupName);
+    public int getFirstValueOf(String groupName, String consumerName, int numberofconsumers) {
+        if (!topicReaders.containsKey(groupName)) {
+            addGroup(groupName, numberofconsumers);
         }
 
         return topicReaders.get(groupName).get(consumerName);
@@ -45,6 +46,7 @@ public class Topic {
 
     /**
      * This method is used to put the given value at the tail of the topic file.
+     *
      * @param value the value to be put at the end of the topic file
      * @return Nothing.
      */
@@ -52,5 +54,12 @@ public class Topic {
         topicWriter.put(producerName, value);
     }
 
+
+    void notifyTopicReaders() {
+        for (TopicReader value : topicReaders.values()) {
+            value.notifyReader();
+        }
+
+    }
 
 }

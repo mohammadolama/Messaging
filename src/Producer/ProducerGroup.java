@@ -22,15 +22,15 @@ public class ProducerGroup extends Thread {
     }
 
     private void initialize() {
-        for(File file: producerGroupDirectory.listFiles()) {
-            producers.add(new Producer(messageBroker,topicName, file.getName(), file));
+        for (File file : producerGroupDirectory.listFiles()) {
+            producers.add(new Producer(messageBroker, topicName, file.getName(), file));
         }
     }
 
     public void run() {
         initialize();
 
-        for(Producer producer: producers) {
+        for (Producer producer : producers) {
             producer.start();
         }
 

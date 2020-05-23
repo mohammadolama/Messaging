@@ -9,9 +9,9 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class LOGGER {
-    public static void BrokerLog( String string) {
-        File file=new File("Log/");
-        if (!file.isDirectory()){
+    public static void BrokerLog(String string) {
+        File file = new File("Log/");
+        if (!file.isDirectory()) {
             file.mkdirs();
         }
         String st = String.format("Log/broker.log");

@@ -1,5 +1,7 @@
 package Broker;
 
+import Util.LOGGER;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -21,11 +23,18 @@ class Transaction {
 
     void commit() {
         synchronized (topicWriter) {
-            topicWriter.writeValue( 0);
+            LOGGER.BrokerLog("producer " + producerName + " start committing a transaction");
+            topicWriter.writeValue(0);
             while (!values.isEmpty()) {
-                topicWriter.writeValue(values.remove());
+                int value =values.remove();
+                LOGGER.BrokerLog("producer: " + producerName + " send message: " + value);
+                topicWriter.writeValue(value);
+
             }
             topicWriter.writeValue(-1);
+            LOGGER.BrokerLog("producer " + producerName + " end committing a transaction");
+
+            topicWriter.getTopic().notifyTopicReaders();
         }
     }
 }

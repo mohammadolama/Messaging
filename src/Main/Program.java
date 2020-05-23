@@ -27,34 +27,33 @@ class Program {
 
     void run() {
 
-        File file2=new File("Output/");
-        if (!file2.isDirectory()){
+        File file2 = new File("Output/");
+        if (!file2.isDirectory()) {
             file2.mkdirs();
         }
 
-        String SourceDir="Datas/";
-        File directory=new File(SourceDir);
-        for (File file : directory.listFiles()){
-                String filedir = String.format(SourceDir + file.getName());
-                File producerGroupDirectory = getProducerGroupDirectory(filedir);
-                String topicName = producerGroupDirectory.getName();
+        String SourceDir = "Datas/";
+        File directory = new File(SourceDir);
+        for (File file : directory.listFiles()) {
+            String filedir = String.format(SourceDir + file.getName());
+            File producerGroupDirectory = getProducerGroupDirectory(filedir);
+            String topicName = producerGroupDirectory.getName();
 
 
-
-                String consumerGroupName = topicName + "Readers1";
-                String consumerGroupName1 = topicName + "Readers2";
-            File consumerGroupFile = new File("Output/"+consumerGroupName + ".txt");
-            File consumerGroupFile1 = new File("Output/"+consumerGroupName1 + ".txt");
-                int numberOfConsumers = 10;
-                int numberOfConsumers1=8;
-                ProducerGroup producerGroup = new ProducerGroup(messageBroker, producerGroupDirectory, topicName);
-                ConsumerGroup consumerGroup = new ConsumerGroup(messageBroker, topicName, consumerGroupName, consumerGroupFile, numberOfConsumers);
+            String consumerGroupName = topicName + "Readers1";
+            String consumerGroupName1 = topicName + "Readers2";
+            File consumerGroupFile = new File("Output/" + consumerGroupName + ".txt");
+            File consumerGroupFile1 = new File("Output/" + consumerGroupName1 + ".txt");
+            int numberOfConsumers = 10;
+            int numberOfConsumers1 = 8;
+            ProducerGroup producerGroup = new ProducerGroup(messageBroker, producerGroupDirectory, topicName);
+            ConsumerGroup consumerGroup = new ConsumerGroup(messageBroker, topicName, consumerGroupName, consumerGroupFile, numberOfConsumers);
             ConsumerGroup consumerGroup1 = new ConsumerGroup(messageBroker, topicName, consumerGroupName1, consumerGroupFile1, numberOfConsumers1);
 
 
-                producerGroup.start();
-                consumerGroup.start();
-                consumerGroup1.start();
+            producerGroup.start();
+            consumerGroup.start();
+            consumerGroup1.start();
         }
     }
 }

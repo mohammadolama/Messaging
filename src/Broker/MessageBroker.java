@@ -11,20 +11,21 @@ public class MessageBroker {
     }
 
     public void put(String topic, String producerName, int value) {
-            topics.get(topic).put(producerName, value);
+        topics.get(topic).put(producerName, value);
     }
 
-    public int getTopicValue(String topic, String groupName, String consumerName) throws NoSuchTopicException {
+    public int getTopicValue(String topic, String groupName, String consumerName, int numberofconsumers) throws NoSuchTopicException {
         if (!topics.containsKey(topic))
             throw new NoSuchTopicException(topic);
 
-        return topics.get(topic).getFirstValueOf(groupName,consumerName);
+        return topics.get(topic).getFirstValueOf(groupName, consumerName, numberofconsumers);
 
     }
-    public void addConsumerGroup(String topic, String groupName)
+
+    public void addConsumerGroup(String topic, String groupName, int numberofconsumers)
             throws NoSuchTopicException {
         if (!topics.containsKey(topic))
             throw new NoSuchTopicException(topic);
-        topics.get(topic).addGroup(groupName);
+        topics.get(topic).addGroup(groupName, numberofconsumers);
     }
 }

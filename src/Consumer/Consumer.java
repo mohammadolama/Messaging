@@ -16,7 +16,7 @@ public class Consumer extends Thread {
     }
 
     private int getValue() throws NoSuchTopicException {
-        return this.getMessageBroker().getTopicValue(getTopicName(), consumerGroup.getGroupName(), this.consumerName);
+        return this.getMessageBroker().getTopicValue(getTopicName(), consumerGroup.getGroupName(), this.consumerName, consumerGroup.getNumberOfConsumers());
     }
 
     public void run() {
@@ -29,9 +29,6 @@ public class Consumer extends Thread {
             int value = 0;
             try {
                 value = getValue();
-                if (value == -20) {
-                    return;
-                }
                 consumerGroup.performAction(this, value);
             } catch (NoSuchTopicException e) {
                 e.printStackTrace();

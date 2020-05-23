@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
-public class ConsumerGroup extends Thread{
+public class ConsumerGroup extends Thread {
     private ArrayList<Consumer> consumers;
     private MessageBroker messageBroker;
     private String topicName;
@@ -28,14 +28,14 @@ public class ConsumerGroup extends Thread{
         this.numberOfConsumers = numberOfConsumers;
         consumers = new ArrayList<>();
         try {
-            this.messageBroker.addConsumerGroup(topicName,groupName);
+            this.messageBroker.addConsumerGroup(topicName, groupName, numberOfConsumers);
         } catch (NoSuchTopicException e) {
             e.printStackTrace();
         }
     }
 
     private void initialize() throws FileNotFoundException {
-        for(int i=0;i<numberOfConsumers;i++) {
+        for (int i = 0; i < numberOfConsumers; i++) {
             String consumerName = groupName + "_" + i;
             consumers.add(new Consumer(this, consumerName));
         }
@@ -46,7 +46,7 @@ public class ConsumerGroup extends Thread{
         try {
             initialize();
 
-            for(Consumer consumer: consumers) {
+            for (Consumer consumer : consumers) {
                 consumer.start();
             }
         } catch (FileNotFoundException e) {
@@ -55,22 +55,29 @@ public class ConsumerGroup extends Thread{
     }
 
     synchronized void performAction(Consumer consumer, int value) {
-        if (value==-20){
+        if (value == -20) {
             return;
         }
-            printWriter.println("Consumer with name " + consumer.getConsumerName() + " read the value " + value);
-            printWriter.flush();
+        printWriter.println("Consumer with name " + consumer.getConsumerName() + " read the value " + value);
+        printWriter.flush();
     }
 
     String getGroupName() {
         return groupName;
     }
+
     String getTopicName() {
         return topicName;
     }
 
-    MessageBroker getMessageBroker() { return messageBroker;    }
+    MessageBroker getMessageBroker() {
+        return messageBroker;
+    }
 
-
+    public int getNumberOfConsumers() {
+        return numberOfConsumers;
+    }
 }
+
+
 
