@@ -3,7 +3,7 @@ package Broker;
 import java.io.File;
 import java.util.HashMap;
 
-public class Topic {
+class Topic {
     private String name;
 
     private File topicFile;
@@ -14,19 +14,18 @@ public class Topic {
         this.name = name;
         topicFile = new File("topics" + File.separator + name + ".dat");
         if (topicFile.exists()) {
-            if (topicFile.delete()) {
-            }
+            topicFile.delete();
         } else if (topicFile.getParentFile() != null && topicFile.getParentFile().mkdirs()) {
         }
         topicWriter = new TopicWriter(this);
         topicReaders = new HashMap<>();
     }
 
-    public File getTopicFile() {
+    File getTopicFile() {
         return topicFile;
     }
 
-    public void addGroup(String groupName, int numberofconsumers) {
+    void addGroup(String groupName, int numberofconsumers) {
         topicReaders.put(groupName, new TopicReader(this, groupName, numberofconsumers));
     }
 
@@ -36,7 +35,7 @@ public class Topic {
      *
      * @return the value of the first remained item.
      */
-    public int getFirstValueOf(String groupName, String consumerName, int numberofconsumers) {
+    int getFirstValueOf(String groupName, String consumerName, int numberofconsumers) {
         if (!topicReaders.containsKey(groupName)) {
             addGroup(groupName, numberofconsumers);
         }
@@ -50,7 +49,7 @@ public class Topic {
      * @param value the value to be put at the end of the topic file
      * @return Nothing.
      */
-    public void put(String producerName, int value) {
+    void put(String producerName, int value) {
         topicWriter.put(producerName, value);
     }
 

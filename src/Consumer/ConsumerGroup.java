@@ -74,7 +74,7 @@ public class ConsumerGroup extends Thread {
         return messageBroker;
     }
 
-    public int getNumberOfConsumers() {
+    int getNumberOfConsumers() {
         return numberOfConsumers;
     }
 }

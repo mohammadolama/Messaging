@@ -56,8 +56,7 @@ class TopicReader {
 
     private boolean hasnext() {
         try {
-            boolean flag = topicFile.getFilePointer() < topicFile.length();
-            return flag;
+            return topicFile.getFilePointer() < topicFile.length();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -92,7 +91,7 @@ class TopicReader {
     }
 
 
-    void endFile() {
+    private void endFile() {
         mySemaphor.addsignal(this.numberOfConsumers + 2);
     }
 

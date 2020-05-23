@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.HashMap;
 
-public class TopicWriter {
+class TopicWriter {
     RandomAccessFile buffer;
     private Topic topic;
     private HashMap<String, Transaction> transactions;
@@ -110,7 +110,7 @@ public class TopicWriter {
         }
     }
 
-    public Topic getTopic() {
+    Topic getTopic() {
         return topic;
     }
 }
